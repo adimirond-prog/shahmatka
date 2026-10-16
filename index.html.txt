@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ДАНИС ДЕВЕЛОПМЕНТ & ИНВЕСТ СТРОЙ | Единая шахматка застройщиков 2026+</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f141c;
+      --card-bg: #18202c;
+      --card-border: #283548;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --gold: #d4af37;
+      --gold-dark: #a47238;
+      --gold-light: #fef08a;
+      --accent-blue: #38bdf8;
+      --badge-green: #10b981;
+      --badge-amber: #f59e0b;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background-color: var(--bg); color: var(--text-main); line-height: 1.5; padding-bottom: 60px; }
+
+    /* Хедер / Баннер */
+    .hero-banner {
+      background: linear-gradient(135deg, #161c26 0%, #0d1219 100%);
+      border-bottom: 1px solid var(--gold-dark);
+      padding: 24px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    .brand-wrap { display: flex; align-items: center; gap: 20px; }
+    .brand-logo-badge {
+      width: 58px;
+      height: 58px;
+      background: linear-gradient(145deg, #a47238, #d4af37);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    }
+    .brand-titles h1 { font-size: 1.35rem; font-weight: 800; letter-spacing: 0.5px; color: #fff; }
+    .brand-titles h1 span { color: var(--gold); }
+    .brand-titles p { font-size: 0.85rem; color: var(--text-muted); margin-top: 2px; }
+
+    /* Панель доступа и авторизации */
+    .access-panel { display: flex; align-items: center; gap: 12px; }
+    .role-indicator {
+      font-size: 0.8rem;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: #1e293b;
+      border: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; }
+    .status-dot.active { background: var(--badge-green); box-shadow: 0 0 8px var(--badge-green); }
+
+    .btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      color: #000;
+    }
+    .btn-gold:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+    }
+    .btn-outline:hover { background: #283548; }
+
+    /* Навигация / Вкладки */
+    .container { max-width: 1400px; margin: 0 auto; padding: 24px 20px; }
+    
+    .tabs-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 12px;
+    }
+    .tab-item {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      transition: all 0.2s;
+    }
+    .tab-item.active {
+      background: rgba(212, 175, 55, 0.12);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* Поиск и фильтры */
+    .filter-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+
+margin-bottom: 24px;
+    }
+    .filter-box input, .filter-box select {
+      background: #0f141c;
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .filter-box input:focus, .filter-box select:focus { border-color: var(--gold); }
+    .search-input { flex: 1; min-width: 260px; }
+
+    /* Таблица застройщиков */
+    .table-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+    }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th {
+      background: #121822;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.9rem;
+      vertical-align: middle;
+    }
+    tr:hover td { background-color: rgba(255,255,255,0.02); }
+
+    .dev-badge {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .region-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 6px;
+      width: fit-content;
+      background: #1e293b;
+      color: var(--accent-blue);
+    }
+    .complex-title { font-weight: 600; color: #fff; }
+    .complex-addr { font-size: 0.8rem; color: var(--text-muted); margin-top: 3px; }
+
+    .curator-box {
+      font-size: 0.85rem;
+      line-height: 1.4;
+      background: rgba(255,255,255,0.03);
+      padding: 8px 12px;
+      border-radius: 8px;
+      border-left: 3px solid var(--gold);
+    }
+    .btn-fix {
+      display: inline-block;
+      background: #2563eb;
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn-fix:hover { background: #1d4ed8; }
+    .rules-text { font-size: 0.8rem; color: #cbd5e1; }
+
+    /* Модальное окно */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(5px);
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-card {
+      background: var(--card-bg);
+      border: 1px solid var(--gold-dark);
+      border-radius: 14px;
+      padding: 28px;
+      width: 100%;
+      max-width: 500px;
+    }
+    .modal-card h3 { font-size: 1.25rem; font-weight: 700; color: var(--gold); margin-bottom: 16px; }
+    .email-chip {
+      background: #0f141c;
+      border: 1px solid var(--card-border);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .btn-del { color: #ef4444; cursor: pointer; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <!-- Шапка портала с брендом -->
+  <header class="hero-banner">
+    <div class="brand-wrap">
+      <div class="brand-logo-badge">🏢</div>
+      <div class="brand-titles">
+        <h1>ДАНИС ДЕВЕЛОПМЕНТ <span>&</span> ИНВЕСТ СТРОЙ</h1>
+        <p>Корпоративный портал брокера: реестр застройщиков, строящихся ЖК и кураторов (2026+)</p>
+      </div>
+    </div>
+    <div class="access-panel">
+      <div class="role-indicator">
+        <div class="status-dot active"></div>
+        <span id="roleText">Режим: Просмотр (для сотрудников)</span>
+      </div>
+      <button class="btn btn-outline" id="btnAdminAccess" onclick="openAuthModal()">Вход для редактора</button>
+      <button class="btn btn-gold" id="btnManageEmails" onclick="openEmailsModal()" style="display: none;">Управление редакторами по Email</button>
+</div>
+  </header>
+
+  <div class="container">
+    <!-- Вкладки -->
+    <div class="tabs-bar">
+      <div class="tab-item active" id="tabApartments" onclick="switchTab('apartments')">
+        🏢 Строящиеся Многоквартирные ЖК (2026–2028+)
+      </div>
+      <div class="tab-item" id="tabHouses" onclick="switchTab('houses')">
+        🏡 Коттеджные посёлки и дома (ИЖС)
+      </div>
+    </div>
+
+    <!-- Фильтры -->
+    <div class="filter-box">
+      <input type="text" class="search-input" id="searchBox" placeholder="Быстрый поиск по ЖК, улице, куратору или девелоперу..." oninput="renderTable()">
+      <select id="regionSelect" onchange="renderTable()">
+        <option value="all">Все территории</option>
+        <option value="Краснодар">Краснодар</option>
+        <option value="Адыгея">Республика Адыгея</option>
+        <option value="Пригород/Край">Пригород и Коттеджные зоны края</option>
+      </select>
+      <button class="btn btn-outline" onclick="exportExcel()">Скачать файл в Excel</button>
+    </div>
+
+    <!-- Таблица объектов -->
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 50px; text-align: center;">№</th>
+            <th style="width: 220px;">Застройщик</th>
+            <th style="width: 320px;" id="colObjTitle">ЖК / Комплекс и локация</th>
+            <th style="width: 320px;">Куратор (мен-ры)</th>
+            <th style="width: 260px;">Платформа и фиксация клиента</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Модалка авторизации редактора -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-card">
+      <h3>Вход в режим редактирования</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+        Введите email редактора или мастер-пароль администратора (по умолчанию: <b>admin2026</b>):
+      </p>
+      <input type="text" id="authInput" placeholder="name@company.ru или пароль" style="width: 100%; padding: 10px; background: #0f141c; border: 1px solid var(--card-border); color: #fff; border-radius: 8px; margin-bottom: 16px;">
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn btn-outline" onclick="closeAuthModal()">Отмена</button>
+        <button class="btn btn-gold" onclick="loginEditor()">Войти</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модалка управления редакторами по email -->
+  <div class="modal-overlay" id="emailsModal">
+    <div class="modal-card">
+      <h3>Список редакторов с правом изменения</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+        Пользователи с этими email-адресами смогут редактировать базу:
+      </p>
+      <div id="emailsList" style="max-height: 200px; overflow-y: auto; margin-bottom: 16px;"></div>
+      <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+        <input type="email" id="newEmailInput" placeholder="Новый email сотрудника..." style="flex: 1; padding: 10px; background: #0f141c; border: 1px solid var(--card-border); color: #fff; border-radius: 8px;">
+        <button class="btn btn-gold" onclick="addEditorEmail()">Добавить</button>
+      </div>
+      <button class="btn btn-outline" style="width: 100%;" onclick="closeEmailsModal()">Закрыть</button>
+    </div>
+  </div>
+
+  <script>
+    // Инициализация базы данных
+    const database = {
+      apartments: [
+        {
+          dev: "НВМ",
+          region: "Краснодар",
+          fixation: "проверка на пересечение по номеру телефона в смс менеджеру",
+          fixUrl: "",
+          items: [
+            { name: 'ЖК "Форма"', addr: "ул. Западный обход / ул. Красных Партизан", curator: "Артем +7 918 134 68 12" },
+            { name: 'ЖК "Новые сезоны 2"', addr: "пос. Знаменский / Пригородный", curator: "Лилия +7 918 377 59 56" },
+{ name: 'ЖК "Дом 101"', addr: "ул. Кирилла Россинского / пос. Краснодарский", curator: "Надя +7 918 170 14 00" },
+            { name: 'ЖК "Коллекция"', addr: "ул. им. Прокофьева / Западный обход", curator: "Иван +7 918 168 52 87" },
+            { name: 'ЖК "Н. кварталы"', addr: "пос. Знаменский / Светлая", curator: "Сергей +7 905 407 21 37" },
+            { name: 'ЖК "История 2/3"', addr: "ул. Войсковая / Новознаменский", curator: "Андрей +7 905 407 23 35" },
+            { name: 'ЖК "Эпос"', addr: "ул. Средняя / Западный обход", curator: "Куратор НВМ" }
+          ]
+        },
+        {
+          dev: "Догма",
+          region: "Краснодар",
+          fixation: "Фиксация в личном кабинете агентства",
+          fixUrl: "https://agency.dogma.ru/lk/login",
+          items: [
+            { name: 'ЖК "Самолет"', addr: "ул. Западный обход / Прокофьева (очереди 2026-2028)", curator: "Куратор Александр Гомолин\n+7 928 203 88 67" },
+            { name: 'ЖК "Парк Победы"', addr: "Ближний Западный обход / ул. Героя Пешкова", curator: "Куратор Александр Гомолин\n+7 928 203 88 67" },
+            { name: 'ЖК "Догма парк"', addr: "Ближний Западный обход, термальный комплекс", curator: "Куратор Александр Гомолин\n+7 928 203 88 67" },
+            { name: 'ЖК "Грейд"', addr: "Северо-Восточный планировочный район (сдача 2028+)", curator: "Куратор Александр Гомолин\n+7 928 203 88 67" },
+            { name: 'ЖК "Ридз" (REDS)', addr: "ул. Новороссийская / Селезнева (бизнес-класс)", curator: "Куратор Александр Гомолин\n+7 928 203 88 67" },
+            { name: 'ЖК "Рекорд"', addr: "ул. Новороссийская, 90 (ЧМР, строящиеся литеры)", curator: "Куратор Александр Гомолин\n+7 928 203 88 67" }
+          ]
+        },
+        {
+          dev: "Метрикс",
+          region: "Краснодар",
+          fixation: "проверка на пересечение по номеру телефона в смс менеджеру",
+          fixUrl: "",
+          items: [
+            { name: 'ЖК "Nova vita"', addr: "пос. Знаменский, ул. Первомайская (стройка 2026-2027)", curator: "+7 928 228 08 04 Виктор" },
+            { name: 'ЖК "Славянка" (новые секции)', addr: "ул. Заполярная, 35 (Славянский мкр)", curator: "+7 928 228 08 04 Виктор" },
+            { name: 'ЖК "Краски 2"', addr: "ул. Краеведа Фадеева (район ККБ / пос. Российский)", curator: "+7 928 228 08 04 Виктор" }
+          ]
+        },
+        {
+          dev: "Семья",
+          region: "Краснодар",
+          fixation: "Фиксация через партнерский портал",
+          fixUrl: "https://family-yug.ru/agent-fixation",
+          items: [
+            { name: 'ЖК "Друзья"', addr: "ул. Ветеранов, 85 (Энка / Баскет-Холл)", curator: "+7 938 502 03 23 Ирина Моисеенко" },
+            { name: 'ЖК "Все свои"', addr: "ул. Колхозная, 5 (Центральный мкр, премиум/бизнес)", curator: "+7 938 502 03 23 Ирина Моисеенко" },
+            { name: 'ЖК "Теплые края"', addr: "ст. Елизаветинская / Пригород (масштабный эко-квартал)", curator: "+7 938 502 03 23 Ирина Моисеенко" }
+          ]
+        },
+        {
+          dev: "Дарстрой",
+          region: "Адыгея",
+          fixation: "проверка на пересечение по номеру телефона в смс менеджеру",
+          fixUrl: "",
+          items: [
+            { name: 'ЖК "Грани"', addr: "ул. Западный обход, 45 (Краснодар)", curator: "Андрей +7 924 009 8877" },
+            { name: 'ЖК "Лето"', addr: "ул. Западный обход / ул. Красных Партизан (Краснодар)", curator: "Андрей +7 924 009 8877" },
+            { name: 'ЖК "МегаСити"', addr: "Респ. Адыгея, пгт. Яблоновский, трасса Старобжегокай", curator: "Лера +7 909 448 74 22" },
+            { name: 'ЖК "Дарград"', addr: "Респ. Адыгея, Тургеневское шоссе, 33/5 (у ТРЦ МЕГА)", curator: "Андрей +7 924 009 8877" },
+            { name: 'ЖК "Отражение"', addr: "Ближний Западный обход / ул. Конгрессная", curator: "Андрей +7 924 009 8877" }
+          ]
+        },
+        {
+          dev: "Флагман",
+          region: "Краснодар",
+          fixation: "проверка на пересечение по номеру телефона в смс менеджеру",
+fixUrl: "",
+          items: [
+            { name: 'ЖК "Зеленая территория"', addr: "пос. Знаменский / ул. Светлая (эко-квартал, стройка 2026)", curator: "Юлия +7 918 620 21 39" }
+          ]
+        }
+      ],
+      houses: [
+        {
+          dev: "ГК ТОЧНО (Загородное направление)",
+          region: "Пригород/Край",
+          fixation: "Портал ТОЧНО Партнеры / TrendAgent",
+          fixUrl: "",
+          items: [
+            { name: 'КП "Родные Просторы Виллы"', addr: "пос. Знаменский, закрытый квартал дизайнерских домов с эскроу", curator: "Куратор ТОЧНО ИЖС" },
+            { name: 'Резиденции "Белые Росы Виллы"', addr: "ст. Динская, набережная реки Кочеты, виллы бизнес-класса", curator: "Куратор ТОЧНО ИЖС" }
+          ]
+        },
+        {
+          dev: "Загородный девелопмент Адыгеи",
+          region: "Адыгея",
+          fixation: "TrendAgent / прямая фиксация куратором",
+          fixUrl: "",
+          items: [
+            { name: 'КП "Усадьба Самоцветы"', addr: "Респ. Адыгея, аул Козет, берег р. Кубань (стили Райт и Хайтек)", curator: "Куратор Самоцветы" },
+            { name: 'КП "Скандинавия 2"', addr: "пгт. Яблоновский, ул. Титова (сетевой газ, 10 мин до Краснодара)", curator: "Куратор Скандинавия" }
+          ]
+        }
+      ]
+    };
+
+    let isEditor = false;
+    let allowedEmails = JSON.parse(localStorage.getItem('allowed_editors') || '["admin@danis.ru", "director@invest-stroy.ru"]');
+    let currentTab = 'apartments';
+
+    function init() {
+      renderTable();
+      renderEmailsList();
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      document.getElementById('tabApartments').classList.toggle('active', tab === 'apartments');
+      document.getElementById('tabHouses').classList.toggle('active', tab === 'houses');
+      document.getElementById('colObjTitle').textContent = tab === 'apartments' ? 'ЖК / Комплекс и локация' : 'Коттеджный посёлок / Дом';
+      renderTable();
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById("tableBody");
+      tbody.innerHTML = "";
+
+      const query = document.getElementById("searchBox").value.toLowerCase().trim();
+      const region = document.getElementById("regionSelect").value;
+
+      let devCounter = 1;
+
+      database[currentTab].forEach(group => {
+        if (region !== 'all' && group.region !== region) return;
+
+        const filteredItems = group.items.filter(it => {
+          if (!query) return true;
+          return group.dev.toLowerCase().includes(query) ||
+                 it.name.toLowerCase().includes(query) ||
+                 it.addr.toLowerCase().includes(query) ||
+                 it.curator.toLowerCase().includes(query);
+        });
+
+        if (filteredItems.length === 0) return;
+
+        // Определяем объединение кураторов
+        const allSameCurator = filteredItems.every(i => i.curator === filteredItems[0].curator);
+
+        filteredItems.forEach((item, idx) => {
+          const tr = document.createElement("tr");
+
+          // №
+          if (idx === 0) {
+            const tdNum = document.createElement("td");
+            tdNum.rowSpan = filteredItems.length;
+            tdNum.style.textAlign = "center";
+            tdNum.style.fontWeight = "700";
+            tdNum.style.color = "var(--gold)";
+            tdNum.textContent = devCounter++;
+            tr.appendChild(tdNum);
+
+            // Застройщик (объединен на группу)
+            const tdDev = document.createElement("td");
+            tdDev.rowSpan = filteredItems.length;
+            tdDev.innerHTML = `
+              <div class="dev-badge">
+                ${group.dev}
+                <span class="region-tag">${group.region}</span>
+              </div>
+            `;
+            tr.appendChild(tdDev);
+          }
+
+          // Название ЖК и Адрес
+          const tdObj = document.createElement("td");
+          tdObj.innerHTML = `
+            <div class="complex-title">${item.name}</div>
+            <div class="complex-addr">📍 ${item.addr}</div>
+`;
+          tr.appendChild(tdObj);
+
+          // Куратор (объединен, если одинаковый)
+          if (!allSameCurator || idx === 0) {
+            const tdCur = document.createElement("td");
+            if (allSameCurator) tdCur.rowSpan = filteredItems.length;
+
+            if (isEditor) {
+              tdCur.innerHTML = `
+                <textarea style="width:100%; background:#0f141c; border:1px solid var(--gold-dark); color:#fff; border-radius:6px; padding:6px; font-size:0.85rem;" onchange="updateCurator('${currentTab}', '${group.dev}', ${idx}, this.value)">${item.curator}</textarea>
+              `;
+            } else {
+              tdCur.innerHTML = `
+                <div class="curator-box">
+                  <b>${item.curator.replace('\n', '<br>')}</b>
+                </div>
+              `;
+            }
+            tr.appendChild(tdCur);
+          }
+
+          // Фиксация (объединена на всю группу)
+          if (idx === 0) {
+            const tdFix = document.createElement("td");
+            tdFix.rowSpan = filteredItems.length;
+            let btnHtml = group.fixUrl ? `<div style="margin-top:6px;"><a href="${group.fixUrl}" target="_blank" class="btn-fix">Зафиксировать клиента ➔</a></div>` : '';
+            tdFix.innerHTML = `
+              <div class="rules-text">${group.fixation}</div>
+              ${btnHtml}
+            `;
+            tr.appendChild(tdFix);
+          }
+
+          tbody.appendChild(tr);
+        });
+      });
+    }
+
+    // Авторизация редактора
+    function openAuthModal() { document.getElementById("authModal").classList.add("open"); }
+    function closeAuthModal() { document.getElementById("authModal").classList.remove("open"); }
+
+    function loginEditor() {
+      const val = document.getElementById("authInput").value.trim().toLowerCase();
+      if (val === 'admin2026' || allowedEmails.includes(val)) {
+        isEditor = true;
+        document.getElementById("roleText").textContent = "Режим: Администратор / Редактор";
+        document.getElementById("roleText").style.color = "var(--gold)";
+        document.getElementById("btnAdminAccess").textContent = "Выйти из режима";
+        document.getElementById("btnAdminAccess").onclick = logoutEditor;
+        document.getElementById("btnManageEmails").style.display = "inline-block";
+        closeAuthModal();
+        renderTable();
+        alert("Доступ открыт! Теперь вы можете редактировать данные кураторов прямо на сайте.");
+      } else {
+        alert("Email или пароль не найден в списке доверенных редакторов!");
+      }
+    }
+
+    function logoutEditor() {
+      isEditor = false;
+      document.getElementById("roleText").textContent = "Режим: Просмотр (для сотрудников)";
+      document.getElementById("roleText").style.color = "var(--text-main)";
+      document.getElementById("btnAdminAccess").textContent = "Вход для редактора";
+      document.getElementById("btnAdminAccess").onclick = openAuthModal;
+      document.getElementById("btnManageEmails").style.display = "none";
+      renderTable();
+    }
+
+    // Управление email редакторов
+    function openEmailsModal() { document.getElementById("emailsModal").classList.add("open"); }
+    function closeEmailsModal() { document.getElementById("emailsModal").classList.remove("open"); }
+
+    function renderEmailsList() {
+      const container = document.getElementById("emailsList");
+      container.innerHTML = "";
+      allowedEmails.forEach((email, i) => {
+        const item = document.createElement("div");
+        item.className = "email-chip";
+        item.innerHTML = `<span>${email}</span><span class="btn-del" onclick="deleteEmail(${i})">✕</span>`;
+        container.appendChild(item);
+      });
+    }
+
+    function addEditorEmail() {
+      const inp = document.getElementById("newEmailInput");
+      const val = inp.value.trim().toLowerCase();
+      if (val && !allowedEmails.includes(val)) {
+        allowedEmails.push(val);
+localStorage.setItem('allowed_editors', JSON.stringify(allowedEmails));
+        inp.value = "";
+        renderEmailsList();
+      }
+    }
+
+    function deleteEmail(idx) {
+      allowedEmails.splice(idx, 1);
+      localStorage.setItem('allowed_editors', JSON.stringify(allowedEmails));
+      renderEmailsList();
+    }
+
+    function updateCurator(tab, dev, idx, newVal) {
+      const grp = database[tab].find(g => g.dev === dev);
+      if (grp) {
+        grp.items[idx].curator = newVal;
+      }
+    }
+
+    function exportExcel() {
+      alert("Скачивание актуальной версии таблицы со всеми последними изменениями...");
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>
